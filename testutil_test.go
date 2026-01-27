@@ -153,7 +153,7 @@ func (m *mockRunner) RunStream(_ context.Context, _ string, _ map[string]any) (<
 	return ch, m.streamErr
 }
 
-func (m *mockRunner) RunChain(ctx context.Context, steps []toolrun.ChainStep) (toolrun.RunResult, []toolrun.StepResult, error) {
+func (m *mockRunner) RunChain(_ context.Context, steps []toolrun.ChainStep) (toolrun.RunResult, []toolrun.StepResult, error) {
 	m.mu.Lock()
 	defer m.mu.Unlock()
 	m.chainCalls = append(m.chainCalls, steps)
