@@ -82,13 +82,7 @@ fmt.Println(res.Value, len(res.ToolCalls))
   - it overwrites existing `previous`
   - it injects even when the previous result is nil
 
-## Version compatibility (current tags)
+## Version compatibility
 
-- `toolmodel`: `v0.1.0`
-- `toolindex`: `v0.1.2`
-- `tooldocs`: `v0.1.2`
-- `toolrun`: `v0.1.1`
-- `toolcode`: `v0.1.1`
-- `toolruntime`: `v0.1.1`
-- `toolsearch`: `v0.1.1`
-- `metatools-mcp`: `v0.1.4`
+See `VERSIONS.md` for the authoritative, auto-generated compatibility matrix.
+
