@@ -10,6 +10,7 @@ import (
 )
 
 func TestExecutor_Interface(t *testing.T) {
+	t.Helper()
 	// Verify Executor interface has ExecuteCode method with correct signature
 	var _ Executor = (*DefaultExecutor)(nil)
 }
@@ -42,6 +43,7 @@ func TestNewDefaultExecutor_InvalidConfig(t *testing.T) {
 }
 
 func TestDefaultExecutor_ImplementsExecutor(t *testing.T) {
+	t.Helper()
 	cfg := Config{
 		Index:  &mockIndex{},
 		Docs:   &mockStore{},
@@ -505,7 +507,7 @@ type toolUsingEngine struct {
 	args   map[string]any
 }
 
-func (e *toolUsingEngine) Execute(ctx context.Context, params ExecuteParams, tools Tools) (ExecuteResult, error) {
+func (e *toolUsingEngine) Execute(ctx context.Context, _ ExecuteParams, tools Tools) (ExecuteResult, error) {
 	_, _ = tools.RunTool(ctx, e.toolID, e.args)
 	return ExecuteResult{Value: "done"}, nil
 }
@@ -515,7 +517,7 @@ type printingEngine struct {
 	messages []string
 }
 
-func (e *printingEngine) Execute(ctx context.Context, params ExecuteParams, tools Tools) (ExecuteResult, error) {
+func (e *printingEngine) Execute(_ context.Context, _ ExecuteParams, tools Tools) (ExecuteResult, error) {
 	for _, msg := range e.messages {
 		tools.Println(msg)
 	}
@@ -527,7 +529,7 @@ type contextCapturingEngine struct {
 	captureCtx *context.Context
 }
 
-func (e *contextCapturingEngine) Execute(ctx context.Context, params ExecuteParams, tools Tools) (ExecuteResult, error) {
+func (e *contextCapturingEngine) Execute(ctx context.Context, _ ExecuteParams, _ Tools) (ExecuteResult, error) {
 	*e.captureCtx = ctx
 	return ExecuteResult{Value: "done"}, nil
 }
@@ -537,7 +539,7 @@ type slowEngine struct {
 	delay time.Duration
 }
 
-func (e *slowEngine) Execute(ctx context.Context, params ExecuteParams, tools Tools) (ExecuteResult, error) {
+func (e *slowEngine) Execute(ctx context.Context, _ ExecuteParams, _ Tools) (ExecuteResult, error) {
 	select {
 	case <-time.After(e.delay):
 		return ExecuteResult{Value: "done"}, nil

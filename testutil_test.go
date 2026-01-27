@@ -54,23 +54,23 @@ func (m *mockIndex) GetTool(id string) (toolmodel.Tool, toolmodel.ToolBackend, e
 	return m.getToolResult, m.getToolBackend, m.getToolErr
 }
 
-func (m *mockIndex) GetAllBackends(id string) ([]toolmodel.ToolBackend, error) {
+func (m *mockIndex) GetAllBackends(_ string) ([]toolmodel.ToolBackend, error) {
 	return nil, nil
 }
 
-func (m *mockIndex) RegisterTool(tool toolmodel.Tool, backend toolmodel.ToolBackend) error {
+func (m *mockIndex) RegisterTool(_ toolmodel.Tool, _ toolmodel.ToolBackend) error {
 	return nil
 }
 
-func (m *mockIndex) RegisterTools(regs []toolindex.ToolRegistration) error {
+func (m *mockIndex) RegisterTools(_ []toolindex.ToolRegistration) error {
 	return nil
 }
 
-func (m *mockIndex) RegisterToolsFromMCP(serverName string, tools []toolmodel.Tool) error {
+func (m *mockIndex) RegisterToolsFromMCP(_ string, _ []toolmodel.Tool) error {
 	return nil
 }
 
-func (m *mockIndex) UnregisterBackend(toolID string, kind toolmodel.BackendKind, backendID string) error {
+func (m *mockIndex) UnregisterBackend(_ string, _ toolmodel.BackendKind, _ string) error {
 	return nil
 }
 
@@ -95,8 +95,8 @@ type describeCall struct {
 }
 
 type examplesCall struct {
-	id  string
-	max int
+	id          string
+	maxExamples int
 }
 
 func (m *mockStore) DescribeTool(id string, level tooldocs.DetailLevel) (tooldocs.ToolDoc, error) {
@@ -106,10 +106,10 @@ func (m *mockStore) DescribeTool(id string, level tooldocs.DetailLevel) (tooldoc
 	return m.describeResult, m.describeErr
 }
 
-func (m *mockStore) ListExamples(id string, max int) ([]tooldocs.ToolExample, error) {
+func (m *mockStore) ListExamples(id string, maxExamples int) ([]tooldocs.ToolExample, error) {
 	m.mu.Lock()
 	defer m.mu.Unlock()
-	m.examplesCalls = append(m.examplesCalls, examplesCall{id, max})
+	m.examplesCalls = append(m.examplesCalls, examplesCall{id, maxExamples})
 	return m.examplesResult, m.examplesErr
 }
 
@@ -144,7 +144,7 @@ func (m *mockRunner) Run(ctx context.Context, toolID string, args map[string]any
 	return m.runResult, m.runErr
 }
 
-func (m *mockRunner) RunStream(ctx context.Context, toolID string, args map[string]any) (<-chan toolrun.StreamEvent, error) {
+func (m *mockRunner) RunStream(_ context.Context, _ string, _ map[string]any) (<-chan toolrun.StreamEvent, error) {
 	ch := make(chan toolrun.StreamEvent, len(m.streamEvents)+1)
 	for _, e := range m.streamEvents {
 		ch <- e
@@ -191,9 +191,8 @@ type mockLogger struct {
 	messages []string
 }
 
-func (l *mockLogger) Logf(format string, args ...any) {
+func (l *mockLogger) Logf(_ string, _ ...any) {
 	l.mu.Lock()
 	defer l.mu.Unlock()
-	// Store formatted message
-	l.messages = append(l.messages, format)
+	l.messages = append(l.messages, "")
 }

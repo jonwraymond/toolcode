@@ -25,8 +25,8 @@ type Tools interface {
 	// DescribeTool returns documentation for a tool at the specified detail level.
 	DescribeTool(id string, level tooldocs.DetailLevel) (tooldocs.ToolDoc, error)
 
-	// ListToolExamples returns up to max usage examples for a tool.
-	ListToolExamples(id string, max int) ([]tooldocs.ToolExample, error)
+	// ListToolExamples returns up to maxExamples usage examples for a tool.
+	ListToolExamples(id string, maxExamples int) ([]tooldocs.ToolExample, error)
 
 	// RunTool executes a single tool and returns the result.
 	// Each call is recorded in the tool call trace.
@@ -80,8 +80,8 @@ func (t *toolsImpl) DescribeTool(id string, level tooldocs.DetailLevel) (tooldoc
 	return t.docs.DescribeTool(id, level)
 }
 
-func (t *toolsImpl) ListToolExamples(id string, max int) ([]tooldocs.ToolExample, error) {
-	return t.docs.ListExamples(id, max)
+func (t *toolsImpl) ListToolExamples(id string, maxExamples int) ([]tooldocs.ToolExample, error) {
+	return t.docs.ListExamples(id, maxExamples)
 }
 
 func (t *toolsImpl) RunTool(ctx context.Context, id string, args map[string]any) (toolrun.RunResult, error) {

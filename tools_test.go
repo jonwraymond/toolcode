@@ -141,8 +141,8 @@ func TestTools_ListToolExamples_DelegatesToDocs(t *testing.T) {
 	if store.examplesCalls[0].id != "tool1" {
 		t.Errorf("expected id 'tool1', got %q", store.examplesCalls[0].id)
 	}
-	if store.examplesCalls[0].max != 5 {
-		t.Errorf("expected max 5, got %d", store.examplesCalls[0].max)
+	if store.examplesCalls[0].maxExamples != 5 {
+		t.Errorf("expected max 5, got %d", store.examplesCalls[0].maxExamples)
 	}
 	if len(result) != 1 || result[0].Title != "Example 1" {
 		t.Errorf("unexpected result: %v", result)

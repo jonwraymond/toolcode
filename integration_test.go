@@ -405,7 +405,7 @@ type simpleEngine struct {
 	value any
 }
 
-func (e *simpleEngine) Execute(ctx context.Context, params ExecuteParams, tools Tools) (ExecuteResult, error) {
+func (e *simpleEngine) Execute(_ context.Context, _ ExecuteParams, _ Tools) (ExecuteResult, error) {
 	return ExecuteResult{Value: e.value}, nil
 }
 
@@ -414,7 +414,7 @@ type chainUsingEngine struct {
 	steps []toolrun.ChainStep
 }
 
-func (e *chainUsingEngine) Execute(ctx context.Context, params ExecuteParams, tools Tools) (ExecuteResult, error) {
+func (e *chainUsingEngine) Execute(ctx context.Context, _ ExecuteParams, tools Tools) (ExecuteResult, error) {
 	result, _, err := tools.RunChain(ctx, e.steps)
 	if err != nil {
 		return ExecuteResult{}, err
@@ -427,7 +427,7 @@ type multiToolEngine struct {
 	toolIDs []string
 }
 
-func (e *multiToolEngine) Execute(ctx context.Context, params ExecuteParams, tools Tools) (ExecuteResult, error) {
+func (e *multiToolEngine) Execute(ctx context.Context, _ ExecuteParams, tools Tools) (ExecuteResult, error) {
 	for _, id := range e.toolIDs {
 		_, err := tools.RunTool(ctx, id, nil)
 		if err != nil {
