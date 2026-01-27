@@ -264,7 +264,6 @@ func TestExecuteCode_CollectsToolCalls(t *testing.T) {
 		Run:    runner,
 		Engine: engine,
 	}
-	exec, _ := NewDefaultExecutor(cfg)
 
 	// Create a custom engine that uses the tools
 	customEngine := &toolUsingEngine{
@@ -272,7 +271,7 @@ func TestExecuteCode_CollectsToolCalls(t *testing.T) {
 		args:   map[string]any{"key": "value"},
 	}
 	cfg.Engine = customEngine
-	exec, _ = NewDefaultExecutor(cfg)
+	exec, _ := NewDefaultExecutor(cfg)
 
 	ctx := context.Background()
 	params := ExecuteParams{

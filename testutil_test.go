@@ -124,7 +124,6 @@ type mockRunner struct {
 	chainSteps   []toolrun.StepResult
 	chainErr     error
 	streamEvents []toolrun.StreamEvent
-	streamResult toolrun.RunResult
 	streamErr    error
 
 	// Call tracking

@@ -9,7 +9,6 @@ func TestLogger_Interface(t *testing.T) {
 
 // testLogger is a test implementation of Logger
 type testLogger struct {
-	messages []string
 }
 
 func (l *testLogger) Logf(format string, args ...any) {
