@@ -23,6 +23,8 @@ tracing, and captured stdout.
 ```go
 import (
   "context"
+  "fmt"
+  "log"
   "time"
 
   "github.com/jonwraymond/toolcode"
