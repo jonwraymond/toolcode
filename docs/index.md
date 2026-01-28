@@ -4,6 +4,12 @@
 Search/Describe/Run helpers to code, enforces timeouts and limits, and records
 tool calls for observability.
 
+[![Docs](https://img.shields.io/badge/docs-ai--tools--stack-blue)](https://jonwraymond.github.io/ai-tools-stack/)
+
+## Deep dives
+- Design Notes: `design-notes.md`
+- User Journey: `user-journey.md`
+
 ## Motivation
 
 - **Programmable orchestration**: loops, conditionals, fallbacks
@@ -47,6 +53,3 @@ res, _ := exec.ExecuteCode(ctx, toolcode.ExecuteParams{
 - Design Notes: `design-notes.md`
 - User Journey: `user-journey.md`
 
-!!! note "Deep dives"
-    - Design Notes: `design-notes.md`
-    - User Journey: `user-journey.md`
