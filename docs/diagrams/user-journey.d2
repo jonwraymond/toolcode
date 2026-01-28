@@ -1,0 +1,27 @@
+direction: down
+
+style: { font-size: 14 }
+
+agent: "Agent" { shape: oval }
+
+metatools: "metatools-mcp" { shape: hexagon }
+
+code: "toolcode" {
+  shape: page
+  style: { shadow: true }
+}
+
+index: "toolindex" { shape: cylinder }
+
+docs: "tooldocs" { shape: document }
+
+runner: "toolrun" { shape: step }
+
+agent -> metatools: "execute_code(code)"
+metatools -> code: "ExecuteCode"
+code -> index: "SearchTools"
+code -> docs: "DescribeTool"
+code -> runner: "RunTool / RunChain"
+runner -> code: "Results"
+code -> metatools: "ExecuteResult"
+metatools -> agent: "Value + stdout"

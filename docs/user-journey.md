@@ -4,24 +4,7 @@ This journey shows how `toolcode` enables end-to-end orchestration using code sn
 
 ## End-to-end flow (stack view)
 
-```mermaid
-sequenceDiagram
-  participant Agent
-  participant MCP as metatools-mcp
-  participant Code as toolcode
-  participant Index as toolindex
-  participant Docs as tooldocs
-  participant Runner as toolrun
-
-  Agent->>MCP: execute_code(code)
-  MCP->>Code: ExecuteCode
-  Code->>Index: SearchTools
-  Code->>Docs: DescribeTool
-  Code->>Runner: RunTool / RunChain
-  Runner-->>Code: Results
-  Code-->>MCP: ExecuteResult
-  MCP-->>Agent: Value + stdout
-```
+![Diagram](assets/diagrams/user-journey.svg)
 
 ## Step-by-step
 
