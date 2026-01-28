@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"reflect"
 	"strings"
 	"time"
 
@@ -282,6 +283,16 @@ func deepCopyValue(v any) any {
 	case json.Number:
 		return val
 	default:
+		rv := reflect.ValueOf(val)
+		if rv.Kind() == reflect.Pointer {
+			if rv.IsNil() {
+				return nil
+			}
+			return deepCopyValue(rv.Elem().Interface())
+		}
+		if out, ok := deepCopyViaJSON(val); ok {
+			return out
+		}
 		return val
 	}
 }
@@ -295,4 +306,16 @@ func deepCopySlice(s []any) []any {
 		out[i] = deepCopyValue(v)
 	}
 	return out
+}
+
+func deepCopyViaJSON(v any) (any, bool) {
+	data, err := json.Marshal(v)
+	if err != nil {
+		return nil, false
+	}
+	var out any
+	if err := json.Unmarshal(data, &out); err != nil {
+		return nil, false
+	}
+	return out, true
 }

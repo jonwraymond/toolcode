@@ -11,6 +11,16 @@ import (
 	"github.com/jonwraymond/toolrun"
 )
 
+type customStruct struct {
+	Name   string
+	Count  int
+	Nested *nestedStruct
+}
+
+type nestedStruct struct {
+	Flag bool
+}
+
 func TestTools_SearchTools_DelegatesToIndex(t *testing.T) {
 	index := &mockIndex{
 		searchResult: []toolindex.Summary{
@@ -226,6 +236,37 @@ func TestTools_RunTool_RecordsToolCall(t *testing.T) {
 	}
 	if record.DurationMs < 0 {
 		t.Errorf("expected non-negative DurationMs, got %d", record.DurationMs)
+	}
+}
+
+func TestDeepCopyArgs_CustomStructPointer(t *testing.T) {
+	input := map[string]any{
+		"custom": &customStruct{
+			Name:  "alpha",
+			Count: 7,
+			Nested: &nestedStruct{
+				Flag: true,
+			},
+		},
+	}
+
+	copied := deepCopyArgs(input)
+	customVal, ok := copied["custom"].(map[string]any)
+	if !ok {
+		t.Fatalf("expected custom to be map[string]any, got %T", copied["custom"])
+	}
+	if customVal["Name"] != "alpha" {
+		t.Errorf("expected Name 'alpha', got %v", customVal["Name"])
+	}
+	if customVal["Count"] != float64(7) {
+		t.Errorf("expected Count 7, got %v", customVal["Count"])
+	}
+	nestedVal, ok := customVal["Nested"].(map[string]any)
+	if !ok {
+		t.Fatalf("expected Nested to be map[string]any, got %T", customVal["Nested"])
+	}
+	if nestedVal["Flag"] != true {
+		t.Errorf("expected Flag true, got %v", nestedVal["Flag"])
 	}
 }
 
