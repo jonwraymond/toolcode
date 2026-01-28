@@ -4,6 +4,12 @@
 Search/Describe/Run helpers to code, enforces timeouts and limits, and records
 tool calls for observability.
 
+## Motivation
+
+- **Programmable orchestration**: loops, conditionals, fallbacks
+- **Uniform tool surface**: same helpers regardless of backend
+- **Traceability**: tool call records for debugging and audits
+
 ## Key APIs
 
 - `Executor` interface (`ExecuteCode`)
@@ -26,6 +32,12 @@ res, _ := exec.ExecuteCode(ctx, toolcode.ExecuteParams{
   Code:     "__out = 2 + 2",
 })
 ```
+
+## Usability notes
+
+- `ExecuteParams` supports per-call timeouts
+- Tool calls are capped via config and params
+- `ExecuteResult` includes tool call traces
 
 ## Next
 
