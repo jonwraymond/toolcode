@@ -1,15 +1,34 @@
 # toolcode
 
-Code-mode orchestration for tool execution.
+`toolcode` executes short orchestration snippets over the tool stack. It exposes
+Search/Describe/Run helpers to code, enforces timeouts and limits, and records
+tool calls for observability.
 
-## What this repo provides
+## What this library provides
 
-- Execute short orchestration snippets
-- A minimal in-sandbox API
-- Timeouts and limits
+- `Executor` interface (`ExecuteCode`)
+- Pluggable `Engine` for language/runtime
+- Limits for tool calls and chain steps
+- Standardized execution result (`ExecuteResult`)
 
-## Example
+## Quickstart
 
 ```go
-res, _ := executor.ExecuteCode(ctx, "go", "__out = 2 + 2", 2*time.Second)
+exec, _ := toolcode.NewDefaultExecutor(toolcode.Config{
+  Index:  idx,
+  Docs:   docs,
+  Run:    runner,
+  Engine: engine,
+})
+
+res, _ := exec.ExecuteCode(ctx, toolcode.ExecuteParams{
+  Language: "go",
+  Code:     "__out = 2 + 2",
+})
 ```
+
+## Next
+
+- Execution pipeline: `architecture.md`
+- Config, limits, and params: `usage.md`
+- Examples: `examples.md`
