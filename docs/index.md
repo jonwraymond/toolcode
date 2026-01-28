@@ -4,12 +4,12 @@
 Search/Describe/Run helpers to code, enforces timeouts and limits, and records
 tool calls for observability.
 
-## What this library provides
+## Key APIs
 
 - `Executor` interface (`ExecuteCode`)
-- Pluggable `Engine` for language/runtime
-- Limits for tool calls and chain steps
-- Standardized execution result (`ExecuteResult`)
+- `DefaultExecutor` implementation
+- `Engine` interface (pluggable runtime)
+- `ExecuteParams`, `ExecuteResult`, `ToolCallRecord`
 
 ## Quickstart
 
