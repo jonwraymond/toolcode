@@ -9,6 +9,7 @@ This page explains the tradeoffs and error semantics behind `toolcode`.
 - **Limits-first design.** Max tool calls and chain steps are enforced in the tools environment. Timeouts are enforced at the executor level.
 - **Structured observability.** Every tool call is recorded with duration, backend kind, and error op for auditability.
 - **Default language.** If not specified, `DefaultLanguage` is used ("go" by default), but the engine decides how that language is implemented.
+- **Deep copy normalization.** Arguments and results are normalized to MCP-native shapes when recorded. Supported shapes include `map[string]any`, `[]any`, and common typed slices/maps; unsupported types are passed through without deep copy.
 
 ## Error semantics
 
