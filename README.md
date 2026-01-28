@@ -82,6 +82,12 @@ fmt.Println(res.Value, len(res.ToolCalls))
   - it overwrites existing `previous`
   - it injects even when the previous result is nil
 
+## Documentation
+
+- `docs/index.md` — overview
+- `docs/design-notes.md` — tradeoffs and error semantics
+- `docs/user-journey.md` — end-to-end agent workflow
+
 ## Version compatibility
 
 See `VERSIONS.md` for the authoritative, auto-generated compatibility matrix.

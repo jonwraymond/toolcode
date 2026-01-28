@@ -44,3 +44,5 @@ res, _ := exec.ExecuteCode(ctx, toolcode.ExecuteParams{
 - Execution pipeline: `architecture.md`
 - Config, limits, and params: `usage.md`
 - Examples: `examples.md`
+- Design Notes: `design-notes.md`
+- User Journey: `user-journey.md`
