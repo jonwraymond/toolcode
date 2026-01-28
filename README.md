@@ -1,5 +1,7 @@
 # toolcode
 
+[![Docs](https://img.shields.io/badge/docs-ai--tools--stack-blue)](https://jonwraymond.github.io/ai-tools-stack/)
+
 `toolcode` is the code-orchestration layer on top of:
 - `github.com/jonwraymond/toolindex`
 - `github.com/jonwraymond/tooldocs`
@@ -91,4 +93,3 @@ fmt.Println(res.Value, len(res.ToolCalls))
 ## Version compatibility
 
 See `VERSIONS.md` for the authoritative, auto-generated compatibility matrix.
-
