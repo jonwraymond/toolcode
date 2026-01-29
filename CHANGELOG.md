@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.0](https://github.com/jonwraymond/toolcode/compare/toolcode-v0.2.0...toolcode-v0.3.0) (2026-01-29)
+
+
+### Features
+
+* add context to toolcode tools ([672e132](https://github.com/jonwraymond/toolcode/commit/672e132fba2896c532f446583ff7022ae8d517af))
+
 ## [0.2.0](https://github.com/jonwraymond/toolcode/compare/toolcode-v0.1.11...toolcode-v0.2.0) (2026-01-28)
 
 
