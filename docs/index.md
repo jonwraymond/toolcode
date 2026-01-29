@@ -7,8 +7,8 @@ tool calls for observability.
 [![Docs](https://img.shields.io/badge/docs-ai--tools--stack-blue)](https://jonwraymond.github.io/ai-tools-stack/)
 
 ## Deep dives
-- Design Notes: `design-notes.md`
-- User Journey: `user-journey.md`
+- Design Notes: [design-notes.md](design-notes.md)
+- User Journey: [user-journey.md](user-journey.md)
 
 ## Motivation
 
@@ -50,6 +50,6 @@ res, _ := exec.ExecuteCode(ctx, toolcode.ExecuteParams{
 - Execution pipeline: `architecture.md`
 - Config, limits, and params: `usage.md`
 - Examples: `examples.md`
-- Design Notes: `design-notes.md`
-- User Journey: `user-journey.md`
+- Design Notes: [design-notes.md](design-notes.md)
+- User Journey: [user-journey.md](user-journey.md)
 
