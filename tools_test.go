@@ -34,7 +34,7 @@ func TestTools_SearchTools_DelegatesToIndex(t *testing.T) {
 		Engine: &mockEngine{},
 	}, 0, 0)
 
-	result, err := tools.SearchTools("query", 10)
+	result, err := tools.SearchTools(context.Background(), "query", 10)
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
@@ -65,9 +65,26 @@ func TestTools_SearchTools_Error(t *testing.T) {
 		Engine: &mockEngine{},
 	}, 0, 0)
 
-	_, err := tools.SearchTools("query", 10)
+	_, err := tools.SearchTools(context.Background(), "query", 10)
 	if err != expectedErr {
 		t.Errorf("expected error %v, got %v", expectedErr, err)
+	}
+}
+
+func TestTools_SearchTools_ContextCanceled(t *testing.T) {
+	tools := newTools(&Config{
+		Index:  &mockIndex{},
+		Docs:   &mockStore{},
+		Run:    &mockRunner{},
+		Engine: &mockEngine{},
+	}, 0, 0)
+
+	ctx, cancel := context.WithCancel(context.Background())
+	cancel()
+
+	_, err := tools.SearchTools(ctx, "query", 10)
+	if !errors.Is(err, context.Canceled) {
+		t.Errorf("expected context.Canceled, got %v", err)
 	}
 }
 
@@ -82,7 +99,7 @@ func TestTools_ListNamespaces_DelegatesToIndex(t *testing.T) {
 		Engine: &mockEngine{},
 	}, 0, 0)
 
-	result, err := tools.ListNamespaces()
+	result, err := tools.ListNamespaces(context.Background())
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
@@ -108,7 +125,7 @@ func TestTools_DescribeTool_DelegatesToDocs(t *testing.T) {
 		Engine: &mockEngine{},
 	}, 0, 0)
 
-	result, err := tools.DescribeTool("tool1", tooldocs.DetailFull)
+	result, err := tools.DescribeTool(context.Background(), "tool1", tooldocs.DetailFull)
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
@@ -140,7 +157,7 @@ func TestTools_ListToolExamples_DelegatesToDocs(t *testing.T) {
 		Engine: &mockEngine{},
 	}, 0, 0)
 
-	result, err := tools.ListToolExamples("tool1", 5)
+	result, err := tools.ListToolExamples(context.Background(), "tool1", 5)
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}

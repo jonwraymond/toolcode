@@ -20,10 +20,10 @@ type Engine interface {
 
 ```go
 type Tools interface {
-  SearchTools(query string, limit int) ([]toolindex.Summary, error)
-  ListNamespaces() ([]string, error)
-  DescribeTool(id string, level tooldocs.DetailLevel) (tooldocs.ToolDoc, error)
-  ListToolExamples(id string, maxExamples int) ([]tooldocs.ToolExample, error)
+  SearchTools(ctx context.Context, query string, limit int) ([]toolindex.Summary, error)
+  ListNamespaces(ctx context.Context) ([]string, error)
+  DescribeTool(ctx context.Context, id string, level tooldocs.DetailLevel) (tooldocs.ToolDoc, error)
+  ListToolExamples(ctx context.Context, id string, maxExamples int) ([]tooldocs.ToolExample, error)
   RunTool(ctx context.Context, id string, args map[string]any) (toolrun.RunResult, error)
   RunChain(ctx context.Context, steps []toolrun.ChainStep) (toolrun.RunResult, []toolrun.StepResult, error)
   Println(args ...any)

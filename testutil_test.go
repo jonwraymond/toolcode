@@ -40,11 +40,24 @@ func (m *mockIndex) Search(query string, limit int) ([]toolindex.Summary, error)
 	return m.searchResult, m.searchErr
 }
 
+func (m *mockIndex) SearchPage(query string, limit int, _ string) ([]toolindex.Summary, string, error) {
+	results, err := m.Search(query, limit)
+	return results, "", err
+}
+
 func (m *mockIndex) ListNamespaces() ([]string, error) {
 	m.mu.Lock()
 	defer m.mu.Unlock()
 	m.namespacesCalls++
 	return m.namespacesResult, nil
+}
+
+func (m *mockIndex) ListNamespacesPage(limit int, _ string) ([]string, string, error) {
+	results, err := m.ListNamespaces()
+	if limit > 0 && len(results) > limit {
+		results = results[:limit]
+	}
+	return results, "", err
 }
 
 func (m *mockIndex) GetTool(id string) (toolmodel.Tool, toolmodel.ToolBackend, error) {

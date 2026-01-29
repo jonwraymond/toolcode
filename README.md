@@ -75,6 +75,8 @@ fmt.Println(res.Value, len(res.ToolCalls))
 - Tool calls and chain steps count against `MaxToolCalls`.
 - Chain length can be capped via `MaxChainSteps`.
 - All tool calls are recorded in `ExecuteResult.ToolCalls` with `durationMs`.
+- Tool call args are normalized to MCP-native shapes; unsupported/custom types are
+  passed through when they cannot be JSON-normalized.
 
 ## Integration notes
 

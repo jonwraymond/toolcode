@@ -18,16 +18,16 @@ import (
 // It provides functions for discovering, documenting, and executing tools.
 type Tools interface {
 	// SearchTools searches for tools matching the query, returning up to limit results.
-	SearchTools(query string, limit int) ([]toolindex.Summary, error)
+	SearchTools(ctx context.Context, query string, limit int) ([]toolindex.Summary, error)
 
 	// ListNamespaces returns all available tool namespaces.
-	ListNamespaces() ([]string, error)
+	ListNamespaces(ctx context.Context) ([]string, error)
 
 	// DescribeTool returns documentation for a tool at the specified detail level.
-	DescribeTool(id string, level tooldocs.DetailLevel) (tooldocs.ToolDoc, error)
+	DescribeTool(ctx context.Context, id string, level tooldocs.DetailLevel) (tooldocs.ToolDoc, error)
 
 	// ListToolExamples returns up to maxExamples usage examples for a tool.
-	ListToolExamples(id string, maxExamples int) ([]tooldocs.ToolExample, error)
+	ListToolExamples(ctx context.Context, id string, maxExamples int) ([]tooldocs.ToolExample, error)
 
 	// RunTool executes a single tool and returns the result.
 	// Each call is recorded in the tool call trace.
@@ -69,19 +69,31 @@ func newTools(cfg *Config, maxToolCalls int, maxChainSteps int) *toolsImpl {
 	}
 }
 
-func (t *toolsImpl) SearchTools(query string, limit int) ([]toolindex.Summary, error) {
+func (t *toolsImpl) SearchTools(ctx context.Context, query string, limit int) ([]toolindex.Summary, error) {
+	if err := ctx.Err(); err != nil {
+		return nil, err
+	}
 	return t.index.Search(query, limit)
 }
 
-func (t *toolsImpl) ListNamespaces() ([]string, error) {
+func (t *toolsImpl) ListNamespaces(ctx context.Context) ([]string, error) {
+	if err := ctx.Err(); err != nil {
+		return nil, err
+	}
 	return t.index.ListNamespaces()
 }
 
-func (t *toolsImpl) DescribeTool(id string, level tooldocs.DetailLevel) (tooldocs.ToolDoc, error) {
+func (t *toolsImpl) DescribeTool(ctx context.Context, id string, level tooldocs.DetailLevel) (tooldocs.ToolDoc, error) {
+	if err := ctx.Err(); err != nil {
+		return tooldocs.ToolDoc{}, err
+	}
 	return t.docs.DescribeTool(id, level)
 }
 
-func (t *toolsImpl) ListToolExamples(id string, maxExamples int) ([]tooldocs.ToolExample, error) {
+func (t *toolsImpl) ListToolExamples(ctx context.Context, id string, maxExamples int) ([]tooldocs.ToolExample, error) {
+	if err := ctx.Err(); err != nil {
+		return nil, err
+	}
 	return t.docs.ListExamples(id, maxExamples)
 }
 
