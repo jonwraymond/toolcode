@@ -6,6 +6,85 @@ This journey shows how `toolcode` enables end-to-end orchestration using code sn
 
 ![Diagram](assets/diagrams/user-journey.svg)
 
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#6b46c1', 'primaryTextColor': '#fff'}}}%%
+flowchart TB
+    subgraph input["Input"]
+        Code["💻 Code Snippet<br/><small>SearchTools, RunTool, etc.</small>"]
+    end
+
+    subgraph executor["Executor"]
+        Exec["⚙️ toolcode.Executor"]
+        Limits["🛡️ Limits<br/><small>timeout, maxToolCalls</small>"]
+    end
+
+    subgraph engine["Engine"]
+        Eng["🔧 Engine.Run()"]
+        Tools["🔨 Tools Environment"]
+    end
+
+    subgraph metatools["Metatool Surface"]
+        Search["🔍 SearchTools()"]
+        Describe["📚 DescribeTool()"]
+        RunTool["▶️ RunTool()"]
+        RunChain["🔗 RunChain()"]
+        Println["🖨️ Println()"]
+    end
+
+    subgraph output["Output"]
+        Result["📦 ExecuteResult<br/><small>Value + Stdout + ToolCalls[]</small>"]
+    end
+
+    Code --> Exec --> Limits --> Eng --> Tools
+    Tools --> Search
+    Tools --> Describe
+    Tools --> RunTool
+    Tools --> RunChain
+    Tools --> Println
+    Search --> Result
+    RunTool --> Result
+    RunChain --> Result
+
+    style input fill:#3182ce,stroke:#2c5282
+    style executor fill:#6b46c1,stroke:#553c9a,stroke-width:2px
+    style engine fill:#d69e2e,stroke:#b7791f
+    style metatools fill:#38a169,stroke:#276749
+    style output fill:#3182ce,stroke:#2c5282
+```
+
+### Tool Call Recording
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#e53e3e'}}}%%
+flowchart LR
+    subgraph snippet["Code Snippet"]
+        Call1["RunTool('a', args)"]
+        Call2["RunTool('b', args)"]
+        Call3["RunChain([...])"]
+    end
+
+    subgraph recording["Recording"]
+        Rec["📝 ToolCallRecord[]<br/><small>ToolID, Args, Result,<br/>Backend, Duration</small>"]
+    end
+
+    subgraph result["ExecuteResult"]
+        Value["Value: __out"]
+        Stdout["Stdout: captured"]
+        Calls["ToolCalls: [...]"]
+    end
+
+    Call1 --> Rec
+    Call2 --> Rec
+    Call3 --> Rec
+    Rec --> Calls
+    snippet --> Value
+    snippet --> Stdout
+
+    style snippet fill:#6b46c1,stroke:#553c9a
+    style recording fill:#e53e3e,stroke:#c53030
+    style result fill:#38a169,stroke:#276749
+```
+
 ## Step-by-step
 
 1. **Agent submits a snippet** to `execute_code`.
