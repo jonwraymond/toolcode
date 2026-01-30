@@ -16,6 +16,13 @@ import (
 
 // Tools is the metatool environment exposed to code snippets during execution.
 // It provides functions for discovering, documenting, and executing tools.
+//
+// Contract:
+// - Concurrency: implementations must be safe for concurrent use.
+// - Context: methods must honor cancellation/deadlines and return ctx.Err() when canceled.
+// - Errors: execution failures propagate underlying errors (e.g., ErrLimitExceeded).
+// - Ownership: args are read-only; returned slices/results are caller-owned snapshots.
+// - Nil/zero: empty IDs return ErrNotFound/ErrInvalidToolID downstream; nil args treated as empty.
 type Tools interface {
 	// SearchTools searches for tools matching the query, returning up to limit results.
 	SearchTools(ctx context.Context, query string, limit int) ([]toolindex.Summary, error)

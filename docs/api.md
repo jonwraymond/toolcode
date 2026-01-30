@@ -8,6 +8,13 @@ type Executor interface {
 }
 ```
 
+### Executor contract
+
+- Concurrency: implementations are safe for concurrent use.
+- Context: honor cancellation/deadlines; deadline exceeded wraps `ErrLimitExceeded`.
+- Errors: configuration failures return `ErrConfiguration`.
+- Ownership: params are read-only; results are caller-owned snapshots.
+
 ## Engine
 
 ```go
@@ -15,6 +22,13 @@ type Engine interface {
   Execute(ctx context.Context, params ExecuteParams, tools Tools) (ExecuteResult, error)
 }
 ```
+
+### Engine contract
+
+- Concurrency: implementations are safe for concurrent use.
+- Context: honor cancellation/deadlines and return `ctx.Err()` when canceled.
+- Errors: use `CodeError` where possible to include line/column metadata.
+- Ownership: params/tools are read-only; results are caller-owned snapshots.
 
 ## Tools surface
 
@@ -29,6 +43,12 @@ type Tools interface {
   Println(args ...any)
 }
 ```
+
+### Tools contract
+
+- Concurrency: implementations are safe for concurrent use.
+- Context: methods honor cancellation/deadlines and return `ctx.Err()` when canceled.
+- Ownership: args are read-only; results are caller-owned snapshots.
 
 ## Params + results
 
@@ -62,6 +82,12 @@ type ToolCallRecord struct {
   DurationMs int64
 }
 ```
+
+### Errors
+
+- `ErrConfiguration`
+- `ErrLimitExceeded`
+- `CodeError`
 
 ## Config
 

@@ -9,6 +9,12 @@ import (
 
 // Executor is the main entry point for executing code snippets.
 // It orchestrates configuration, limits, and result collection.
+//
+// Contract:
+// - Concurrency: implementations must be safe for concurrent use.
+// - Context: must honor cancellation/deadlines; deadline exceeded is wrapped with ErrLimitExceeded.
+// - Errors: configuration failures return ErrConfiguration; execution failures propagate.
+// - Ownership: params are read-only; returned ExecuteResult is caller-owned.
 type Executor interface {
 	// ExecuteCode runs a code snippet with the given parameters.
 	// It applies configuration defaults, enforces limits, and collects
