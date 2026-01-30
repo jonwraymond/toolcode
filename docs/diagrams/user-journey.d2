@@ -1,27 +1,156 @@
+# toolcode User Journey
+# Code orchestration with metatool environment
+
 direction: down
 
-style: { font-size: 14 }
-
-agent: "Agent" { shape: oval }
-
-metatools: "metatools-mcp" { shape: hexagon }
-
-code: "toolcode" {
-  shape: page
-  style: { shadow: true }
+vars: {
+  d2-config: {
+    layout-engine: elk
+    theme-id: 0
+  }
+  composition-fill: "#805ad5"
+  discovery-fill: "#3182ce"
+  surface-fill: "#2b6cb0"
+  execution-fill: "#38a169"
+  actor-fill: "#e2e8f0"
 }
 
-index: "toolindex" { shape: cylinder }
+classes: {
+  actor: {
+    style: {
+      fill: ${actor-fill}
+      stroke: "#a0aec0"
+      stroke-width: 2
+      font-color: "#1a202c"
+      bold: true
+    }
+  }
+  composition: {
+    style: {
+      fill: ${composition-fill}
+      stroke: "#6b46c1"
+      stroke-width: 2
+      font-color: "#fff"
+      shadow: true
+    }
+  }
+  discovery: {
+    style: {
+      fill: ${discovery-fill}
+      stroke: "#2c5282"
+      stroke-width: 2
+      font-color: "#fff"
+    }
+  }
+  surface: {
+    style: {
+      fill: ${surface-fill}
+      stroke: "#1a365d"
+      stroke-width: 2
+      font-color: "#fff"
+    }
+  }
+  execution: {
+    style: {
+      fill: ${execution-fill}
+      stroke: "#276749"
+      stroke-width: 2
+      font-color: "#fff"
+    }
+  }
+  request-flow: {
+    style: {
+      stroke: ${surface-fill}
+      stroke-width: 2
+    }
+  }
+  code-flow: {
+    style: {
+      stroke: ${composition-fill}
+      stroke-width: 2
+    }
+  }
+  result-flow: {
+    style: {
+      stroke: "#718096"
+      stroke-width: 2
+      stroke-dash: 3
+    }
+  }
+}
 
-docs: "tooldocs" { shape: document }
+# Title
+title: "toolcode - Code Orchestration" {
+  shape: text
+  near: top-center
+  style: {
+    font-size: 24
+    bold: true
+    font-color: "#1a365d"
+  }
+}
 
-runner: "toolrun" { shape: step }
+# Actors
+agent: "🤖 Agent" {
+  shape: person
+  class: actor
+}
 
-agent -> metatools: "execute_code(code)"
-metatools -> code: "ExecuteCode"
-code -> index: "SearchTools"
-code -> docs: "DescribeTool"
-code -> runner: "RunTool / RunChain"
-runner -> code: "Results"
-code -> metatools: "ExecuteResult"
-metatools -> agent: "Value + stdout"
+# Components
+metatools: "🔷 metatools-mcp\nMCP Surface" {
+  shape: hexagon
+  class: surface
+}
+
+code: "💻 toolcode\nOrchestration" {
+  shape: page
+  class: composition
+}
+
+index: "🗂️ toolindex\nSearchTools" {
+  shape: cylinder
+  class: discovery
+}
+
+docs: "📚 tooldocs\nDescribeTool" {
+  shape: document
+  class: discovery
+}
+
+runner: "▶️ toolrun\nRunTool/RunChain" {
+  shape: step
+  class: execution
+}
+
+# Flow
+agent -> metatools: "execute_code(code)" {
+  class: request-flow
+}
+
+metatools -> code: "ExecuteCode" {
+  class: request-flow
+}
+
+code -> index: "SearchTools" {
+  class: code-flow
+}
+
+code -> docs: "DescribeTool" {
+  class: code-flow
+}
+
+code -> runner: "RunTool / RunChain" {
+  class: code-flow
+}
+
+runner -> code: "Results" {
+  class: result-flow
+}
+
+code -> metatools: "ExecuteResult" {
+  class: result-flow
+}
+
+metatools -> agent: "Value + stdout" {
+  class: result-flow
+}

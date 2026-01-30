@@ -1,7 +1,124 @@
+# toolcode Execution Flow
+# Code orchestration with metatool environment
+
 direction: right
 
-Executor -> Engine
-Executor -> toolindex
-Executor -> tooldocs
-Executor -> toolrun
-Engine -> "toolruntime (optional)"
+vars: {
+  d2-config: {
+    layout-engine: elk
+    theme-id: 0
+  }
+  orchestration-fill: "#805ad5"
+  discovery-fill: "#3182ce"
+  execution-fill: "#38a169"
+  sandbox-fill: "#e53e3e"
+}
+
+classes: {
+  orchestration-node: {
+    style: {
+      fill: ${orchestration-fill}
+      stroke: "#6b46c1"
+      stroke-width: 2
+      font-color: "#fff"
+    }
+  }
+  discovery-node: {
+    style: {
+      fill: ${discovery-fill}
+      stroke: "#2c5282"
+      stroke-width: 2
+      font-color: "#fff"
+    }
+  }
+  execution-node: {
+    style: {
+      fill: ${execution-fill}
+      stroke: "#276749"
+      stroke-width: 2
+      font-color: "#fff"
+    }
+  }
+  sandbox-node: {
+    style: {
+      fill: ${sandbox-fill}
+      stroke: "#c53030"
+      stroke-width: 2
+      font-color: "#fff"
+      stroke-dash: 3
+    }
+  }
+  data-flow: {
+    style: {
+      stroke: "#4a5568"
+      stroke-width: 2
+    }
+  }
+  optional-flow: {
+    style: {
+      stroke: "#718096"
+      stroke-width: 2
+      stroke-dash: 3
+    }
+  }
+}
+
+# Title
+title: "toolcode - Execution Flow" {
+  shape: text
+  near: top-center
+  style: {
+    font-size: 24
+    bold: true
+    font-color: "#1a365d"
+  }
+}
+
+# Components
+executor: "💻 Executor\nCode Entry" {
+  shape: step
+  class: orchestration-node
+}
+
+engine: "⚙️ Engine\nMetatool Env" {
+  shape: hexagon
+  class: orchestration-node
+}
+
+toolindex: "🗂️ toolindex\nSearch" {
+  shape: cylinder
+  class: discovery-node
+}
+
+tooldocs: "📚 tooldocs\nDescribe" {
+  shape: document
+  class: discovery-node
+}
+
+toolrun: "▶️ toolrun\nRun/Chain" {
+  shape: step
+  class: execution-node
+}
+
+toolruntime: "🔒 toolruntime\nSandbox" {
+  shape: cloud
+  class: sandbox-node
+}
+
+# Flow
+executor -> engine: "code" {
+  class: data-flow
+}
+executor -> toolindex: "SearchTools" {
+  class: data-flow
+}
+executor -> tooldocs: "DescribeTool" {
+  class: data-flow
+}
+executor -> toolrun: "RunTool/RunChain" {
+  class: data-flow
+}
+
+engine -> toolruntime: "optional" {
+  class: optional-flow
+}
