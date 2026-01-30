@@ -3,10 +3,10 @@ module github.com/jonwraymond/toolcode
 go 1.24.4
 
 require (
-	github.com/jonwraymond/tooldocs v0.1.10
-	github.com/jonwraymond/toolindex v0.1.9
-	github.com/jonwraymond/toolmodel v0.1.3
-	github.com/jonwraymond/toolrun v0.1.9
+	github.com/jonwraymond/tooldocs v0.2.0
+	github.com/jonwraymond/toolindex v0.3.0
+	github.com/jonwraymond/toolmodel v0.2.0
+	github.com/jonwraymond/toolrun v0.3.0
 )
 
 require (
