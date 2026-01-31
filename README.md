@@ -1,6 +1,35 @@
 # toolcode
 
+> **DEPRECATED**: This package has been moved to `github.com/jonwraymond/toolexec/code`.
+>
+> Please update your imports. See [MIGRATION.md](./MIGRATION.md) for details.
+
 [![Docs](https://img.shields.io/badge/docs-ai--tools--stack-blue)](https://jonwraymond.github.io/ai-tools-stack/)
+
+---
+
+## Migration
+
+This repository is deprecated. All functionality has been consolidated into the
+`toolexec` repository under the `code` package.
+
+**New import path:**
+
+```go
+import "github.com/jonwraymond/toolexec/code"
+```
+
+For a complete migration guide, see [MIGRATION.md](./MIGRATION.md).
+
+---
+
+## Legacy Documentation
+
+The content below is preserved for reference. For up-to-date documentation,
+see the [toolexec documentation](https://jonwraymond.github.io/ai-tools-stack/).
+
+<details>
+<summary>Click to expand legacy README</summary>
 
 `toolcode` is the code-orchestration layer on top of:
 - `github.com/jonwraymond/toolindex`
@@ -11,13 +40,13 @@ It executes short, constrained snippets through an injected `Engine` while
 exposing a small metatool surface (`SearchTools`, `DescribeTool`, `RunTool`,
 `RunChain`, `Println`).
 
-## Install
+### Install
 
 ```bash
 go get github.com/jonwraymond/toolcode
 ```
 
-## Quick start
+### Quick start
 
 You must provide an `Engine`. The executor handles defaults, limits, tool-call
 tracing, and captured stdout.
@@ -69,7 +98,7 @@ if err != nil {
 fmt.Println(res.Value, len(res.ToolCalls))
 ```
 
-## Limits and tracing
+### Limits and tracing
 
 - Timeouts are enforced via context deadlines.
 - Tool calls and chain steps count against `MaxToolCalls`.
@@ -78,7 +107,7 @@ fmt.Println(res.Value, len(res.ToolCalls))
 - Tool call args are normalized to MCP-native shapes; unsupported/custom types are
   passed through when they cannot be JSON-normalized.
 
-## Integration notes
+### Integration notes
 
 - Tool IDs should be canonical (`namespace:name`)
 - Chain semantics match `toolrun`:
@@ -86,12 +115,14 @@ fmt.Println(res.Value, len(res.ToolCalls))
   - it overwrites existing `previous`
   - it injects even when the previous result is nil
 
-## Documentation
+### Documentation
 
 - `docs/index.md` — overview
 - `docs/design-notes.md` — tradeoffs and error semantics
 - `docs/user-journey.md` — end-to-end agent workflow
 
-## Version compatibility
+### Version compatibility
 
 See `VERSIONS.md` for the authoritative, auto-generated compatibility matrix.
+
+</details>
